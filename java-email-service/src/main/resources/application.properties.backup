@@ -1,0 +1,30 @@
+# Server Configuration
+server.port=8081
+server.servlet.context-path=/email-service
+
+# Email Configuration - Gmail SMTP
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=mpraveen.k2007@gmail.com
+spring.mail.password=rkcx nqrz fdgd whlkrkcx nqrz fdgd whlkrkcx nqrz fdgd whljhj''
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.properties.mail.smtp.ssl.trust=smtp.gmail.com
+spring.mail.properties.mail.smtp.connectiontimeout=5000
+spring.mail.properties.mail.smtp.timeout=5000
+spring.mail.properties.mail.smtp.writetimeout=5000
+
+# For development - you can use a fake SMTP server like MailHog
+# spring.mail.host=localhost
+# spring.mail.port=1025
+
+# Application Configuration
+app.email.from=mpraveen.k2007@gmail.com
+app.email.from-name=Sathyabama Event Management System
+
+# Logging
+logging.level.com.sathyabama.email=DEBUG
+logging.level.org.springframework.mail=DEBUG
+
+# CORS Configuration (to allow PHP application to call this service)
+cors.allowed.origins=http://localhost,http://localhost:80,http://localhost:8080

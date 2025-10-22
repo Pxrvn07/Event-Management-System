@@ -1,0 +1,299 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+    animation: fadeIn 1.5s ease-in-out;
+    border: none;
+    outline: none;
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.login-background {
+    height: 100vh;
+    width: 100vw;
+    background: url('sathyabama_campus.jpg') center/cover;
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+@keyframes slideInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-box {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 45px 35px;
+    width: 440px;
+    height: 600px;
+    max-width: 90vw;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+    border: none;
+    text-align: center;
+    position: relative;
+    overflow-y: auto;
+    animation: slideInUp 1s ease-out 0.5s both;
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.logo-container {
+    margin-bottom: 20px;
+}
+
+.university-logo {
+    width: 280px;
+    height: auto;
+    max-width: 100%;
+    border-radius: 9px;
+}
+
+.signup-title {
+    color: #2d3748;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 20px 0 30px 0;
+    text-align: center;
+}
+
+.login-instruction {
+    color: #ffffff;
+    font-size: 16px;
+    margin-bottom: 30px;
+    font-weight: 400;
+    background: rgba(131, 19, 57, 0.9);
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin: 0 -10px 30px -10px;
+}
+
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    color: #4a5568;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 16px;
+    background: #ffffff;
+    color: #2d3748;
+    transition: all 0.2s ease;
+}
+
+.input-group input:focus {
+    border-color: #831339;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(131, 19, 57, 0.1);
+}
+
+.input-group input::placeholder {
+    color: #a0aec0;
+    font-weight: 400;
+}
+
+.password-container {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #718096;
+    padding: 4px;
+    transition: color 0.2s ease;
+}
+
+.password-toggle:hover {
+    color: #831339;
+}
+
+/* File input styling */
+input[type="file"] {
+    padding: 12px;
+    border: 2px dashed #e1e5e9;
+    border-radius: 8px;
+    background: #f8fafc;
+    font-size: 14px;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+input[type="file"]:hover {
+    border-color: #831339;
+    border-style: solid;
+    background: #fef7f7;
+}
+
+input[type="file"]:focus {
+    outline: none;
+    border-color: #831339;
+    border-style: solid;
+    box-shadow: 0 0 0 3px rgba(131, 19, 57, 0.1);
+}
+
+/* Custom file input button styling */
+input[type="file"]::file-selector-button {
+    background: linear-gradient(90deg, #831339 0%, #a81746 100%);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    margin-right: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background: linear-gradient(90deg, #a81746 0%, #831339 100%);
+}
+
+/* For older webkit browsers */
+input[type="file"]::-webkit-file-upload-button {
+    background: linear-gradient(90deg, #831339 0%, #a81746 100%);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    margin-right: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+input[type="file"]::-webkit-file-upload-button:hover {
+    background: linear-gradient(90deg, #a81746 0%, #831339 100%);
+}
+
+.login-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #831339 0%, #a81746 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    margin-top: 10px;
+    box-shadow: 0 4px 12px rgba(131, 19, 57, 0.3);
+}
+
+.login-btn:hover {
+    background: linear-gradient(135deg, #a81746 0%, #831339 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(131, 19, 57, 0.4);
+}
+
+.login-btn:active {
+    transform: translateY(0);
+}
+
+.signup-link {
+    margin-top: 35px;
+    text-align: center;
+    color: #4a5568;
+    font-size: 14px;
+}
+
+.signup-link a {
+    color: #831339;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.signup-link a:hover {
+    color: #a81746;
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .login-box {
+        padding: 30px 20px;
+        width: 95vw;
+    }
+    
+    .university-logo {
+        width: 240px;
+    }
+    
+    .login-instruction {
+        font-size: 14px;
+        padding: 10px 15px;
+    }
+    
+
+    
+    input[type="file"]::file-selector-button,
+    input[type="file"]::-webkit-file-upload-button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}

@@ -1,0 +1,19 @@
+2025-10-19 17:39:26 - Email to: mpraveen@gmail.com - Subject: Registration Confirmed: e - SUCCESS
+2025-10-19 17:40:33 - Email to: mpraveen.k2007@gmail.com - Subject: Registration Confirmed: e - SUCCESS
+2025-10-19 18:02:05 - [JAVA-SERVICE] Email to: pxrvn321123@gmail.com - Subject: Registration Confirmed: 2 - EXCEPTION: HTTP Error: 500 - {"success":false,"message":"Failed to send email","emailId":null,"timestamp":1760889725338}
+2025-10-19 18:08:35 - [JAVA-SERVICE] Email to: mpraveen.k2007@gmail.com - Subject: Registration Confirmed: tech - EXCEPTION: HTTP Error: 500 - {"success":false,"message":"Failed to send email","emailId":null,"timestamp":1760890115282}
+2025-10-19 18:08:44 - [JAVA-SERVICE] Email to: mpraveen.k2007@gmail.com - Subject: Registration Confirmed: 2 - EXCEPTION: HTTP Error: 500 - {"success":false,"message":"Failed to send email","emailId":null,"timestamp":1760890124197}
+2025-10-19 18:21:12 - [JAVA-SERVICE] Email to: mpraveen.k2007@gmail.com - Subject: Registration Confirmed: tech - SUCCESS
+2025-10-19 18:21:56 - [JAVA-SERVICE] Email to: mpraveen.k2007@gmail.com - Subject: Registration Confirmed: e - SUCCESS
+2025-10-19 18:22:11 - [JAVA-SERVICE] Email to: mpraveen.k2007@gmail.com - Subject: Registration Confirmed: 2 - SUCCESS
+2025-10-19 18:26:33 - [JAVA-SERVICE] Email to: pxrvn321123@gmail.com - Subject: Registration Confirmed (Async): 2 - QUEUE_ERROR: HTTP Error: 400 - {"success":false,"message":"Email address is required","emailId":null,"timestamp":1760891193597}
+2025-10-19 18:28:52 - [JAVA-SERVICE] Email to: pxrvn321123@gmail.com - Subject: Registration Confirmed (Async): e - QUEUE_ERROR: HTTP Error: 400 - {"success":false,"message":"Email address is required","emailId":null,"timestamp":1760891332428}
+2025-10-19 18:31:04 - [JAVA-SERVICE] Email to: pxrvn321123@gmail.com - Subject: Registration Confirmed (Async): tech - QUEUE_ERROR: HTTP Error: 400 - {"success":false,"message":"Email address is required","emailId":null,"timestamp":1760891464499}
+2025-10-19 18:34:55 - [JAVA-SERVICE] Email to: pxrvn321123@gmail.com - Subject: Registration Confirmed: tech - EXCEPTION: HTTP Error: 500 - {"success":false,"message":"Internal server error: Null return value from advice does not match primitive return type for: public boolean com.sathyabama.email.service.EmailService.sendRegistrationConfirmation(com.sathyabama.email.model.EmailRequest)","emailId":null,"timestamp":1760891695256}
+2025-10-19 18:35:11 - [JAVA-SERVICE] Email to: pxrvn321123@gmail.com - Subject: Registration Confirmed: e - EXCEPTION: HTTP Error: 500 - {"success":false,"message":"Internal server error: Null return value from advice does not match primitive return type for: public boolean com.sathyabama.email.service.EmailService.sendRegistrationConfirmation(com.sathyabama.email.model.EmailRequest)","emailId":null,"timestamp":1760891711295}
+2025-10-19 18:44:22 - [JAVA-SERVICE] Email to: mpraveen.k2007@gmail.com - Subject: Registration Confirmed: 2 - SUCCESS
+2025-10-19 18:44:49 - [JAVA-SERVICE] Email to: pxrvn321123@gmail.com - Subject: Registration Confirmed: e - SUCCESS
+2025-10-19 18:53:26 - [JAVA-SERVICE] Email to: mpraveen.k2007@gmail.com - Subject: Registration Confirmed: tech - SUCCESS
+2025-10-19 18:55:06 - [JAVA-SERVICE] Email to: mpraveen.k2007@gmail.com - Subject: Registration Confirmed: e - SUCCESS
+2025-10-19 18:55:29 - [JAVA-SERVICE] Email to: mpraveen.k2007@gmail.com - Subject: Registration Confirmed: e - SUCCESS
+2025-10-19 18:57:18 - [JAVA-SERVICE] Email to: mpraveen.k2007@gmail.com - Subject: Registration Confirmed: tech - SUCCESS

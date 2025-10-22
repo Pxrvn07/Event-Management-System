@@ -1,0 +1,7 @@
+com/sathyabama/email/model/EmailResponse.class
+com/sathyabama/email/EmailServiceApplication.class
+com/sathyabama/email/config/DevEmailConfig.class
+com/sathyabama/email/service/EmailService.class
+com/sathyabama/email/config/WebConfig.class
+com/sathyabama/email/controller/EmailController.class
+com/sathyabama/email/model/EmailRequest.class

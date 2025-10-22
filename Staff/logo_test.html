@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Logo Test</title>
+</head>
+<body>
+    <h1>Logo Test from Staff Directory</h1>
+    <p>Testing logo with relative path:</p>
+    <img src="../assets/sathyabama_logo.png" alt="Logo Relative" style="height: 100px; border: 1px solid red;">
+    
+    <p>Testing logo with absolute path:</p>
+    <img src="/EventManagementSystem/assets/sathyabama_logo.png" alt="Logo Absolute" style="height: 100px; border: 1px solid blue;">
+    
+    <p>File exists check:</p>
+    <script>
+        // Test if file exists
+        fetch('../assets/sathyabama_logo.png')
+            .then(response => {
+                if (response.ok) {
+                    document.write('<p style="color: green;">✅ Logo file is accessible via relative path</p>');
+                } else {
+                    document.write('<p style="color: red;">❌ Logo file NOT accessible via relative path. Status: ' + response.status + '</p>');
+                }
+            })
+            .catch(error => {
+                document.write('<p style="color: red;">❌ Error accessing logo: ' + error.message + '</p>');
+            });
+    </script>
+</body>
+</html>

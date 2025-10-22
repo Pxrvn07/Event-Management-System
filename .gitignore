@@ -1,0 +1,7 @@
+/uploads/
+/Database/backup_*.sql
+/target/
+*.log
+.DS_Store
+node_modules/
+*.iml

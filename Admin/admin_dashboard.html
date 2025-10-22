@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="admin_dashboard.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <title>Admin Dashboard</title>
+    <style>
+      .tab { cursor: pointer; padding: 10px; display: inline-block; background: #eee; margin-right: 5px; }
+      .tab.active { background: #831339; }
+      .tab-content { display: none; }
+      .tab-content.active { display: block; margin-top: 20px; }
+    </style>
+</head>
+<body>
+  <header>
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 32px; background: #831339; min-height: 72px;">
+      <div style="display: flex; align-items: center; gap: 20px;">
+        <img src="../assets/sathyabama_logo.png" alt="Sathyabama Logo" style="height: 48px; width: auto;">
+        </div>
+      <div style="display: flex; align-items: center; gap: 0;">
+        <div style="position: relative;">
+          <div id="profile-toggle" style="display: flex; align-items: center; gap: 12px; cursor: pointer; font-family: 'Roboto', Arial, sans-serif;">
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #831339 0%, #a81746 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 18px; overflow: hidden;" id="user-avatar">
+            </div>
+            <span id="admin-name" style="color: #fff; font-size: 14px; font-weight: 600; font-family: 'Roboto', Arial, sans-serif;">Loading...</span>
+            <span style="color: #fff; display: flex; align-items: center; margin-left: 2px;">
+              <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle;">
+                <path d="M6 8L10 12L14 8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </div>
+          <!-- Dropdown Menu -->
+          <div id="dropdown-menu" style="display: none; position: absolute; right: 0; top: 55px; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); min-width: 220px; z-index: 1000; overflow: hidden; font-family: 'Roboto', Arial, sans-serif;">
+            <div style="padding: 18px; border-bottom: 1px solid #e5e7eb;">
+              <p style="margin: 0; font-weight: 700; color: #1f2937; font-size: 16px;" id="dropdown-name">Loading...</p>
+              <p style="margin: 4px 0 0 0; font-size: 13px; color: #6b7280;" id="dropdown-admin-id">Admin ID: Loading...</p>
+            </div>
+            <a href="#" id="profile-link" style="display: block; padding: 14px 18px; text-decoration: none; color: #374151; font-size: 15px; transition: background 0.2s; font-family: 'Roboto', Arial, sans-serif;" onmouseover="this.style.background='#f3f4f6'" onmouseout="this.style.background='transparent'">
+              <span style="margin-right: 8px;">👤</span> Profile
+            </a>
+            <a href="#" id="dropdown-logout" style="display: block; padding: 14px 18px; text-decoration: none; color: #dc2626; font-size: 15px; transition: background 0.2s; border-top: 1px solid #e5e7eb; font-family: 'Roboto', Arial, sans-serif;" onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background='transparent'">
+              <span style="margin-right: 8px;">🚪</span> Log Out
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="dashboard-container">
+  <h1 style="text-align:center; color:#2d3a4a; margin-top:8px;">Admin Dashboard</h1>
+    <nav style="text-align:center; margin-bottom:50px;">
+      <span class="tab active" onclick="showTab('pending')">Pending Events</span>
+      <span class="tab" onclick="showTab('all')">All Events</span>
+    </nav>
+    <main>
+      <section id="pending" class="tab-content active">
+        <h2 style="color:#4f8cff; text-align:center;">Pending Events</h2>
+        <div id="pending-events-list">Loading events...</div>
+      </section>
+      <section id="all" class="tab-content">
+        <h2 style="color:#4f8cff; text-align:center;">All Events</h2>
+        <div id="all-events-list">Loading events...</div>
+      </section>
+      <section id="edit" class="tab-content" style="display: none;">
+        <h2 style="color:#4f8cff; text-align:center;">Edit Event</h2>
+        <form id="edit-event-form" style="max-width:400px; margin:0 auto;" enctype="multipart/form-data">
+          <input type="hidden" id="edit_event_id" name="event_id" />
+          <label for="edit_event_name">Event Name</label>
+          <input type="text" id="edit_event_name" name="event_name" required />
+          <label for="edit_date">Date</label>
+          <input type="date" id="edit_date" name="date" required />
+          <label for="edit_description">Description</label>
+          <textarea id="edit_description" name="description" style="height:80px;"></textarea>
+          <label for="edit_brochure_image">Brochure Image (leave empty to keep current)</label>
+          <input type="file" id="edit_brochure_image" name="brochure_image" accept="image/*" />
+          <label for="edit_coordinators">Coordinators (select students)</label>
+          <select id="edit_coordinators" name="coordinators[]" multiple style="height:100px;"></select>
+          <button type="submit">Update Event</button>
+        </form>
+      </section>
+    </main>
+    <footer style="text-align:center; margin-top:32px;"><p>&copy; Event Management System</p></footer>
+  </div>
+
+  <!-- Profile Popup Modal -->
+  <div id="profile-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:6000; justify-content:center; align-items:center;">
+    <div style="background:#fff; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.18); min-width:400px; max-width:500px; padding:32px; position:relative; font-family:'Roboto', Arial, sans-serif; text-align:center;">
+      <button id="close-profile-modal" style="position:absolute; top:16px; right:16px; background:none; border:none; font-size:24px; color:#831339; cursor:pointer;">&times;</button>
+      <div id="profile-modal-avatar" style="width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg, #831339 0%, #a81746 100%); display:flex; align-items:center; justify-content:center; color:white; font-weight:bold; font-size:32px; margin:0 auto 20px auto;"></div>
+      <h2 id="profile-modal-name" style="margin:0 0 8px 0; font-size:24px; color:#831339; font-weight:700;">Admin</h2>
+      <p id="profile-modal-admin-id" style="margin:0 0 16px 0; color:#6b7280; font-size:16px;">Admin ID:</p>
+      <p id="profile-modal-email" style="margin:0 0 8px 0; color:#374151; font-size:16px;">Email:</p>
+    </div>
+  </div>
+
+  <!-- Event Details Modal -->
+  <div id="event-details-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.35); z-index:5000; justify-content:center; align-items:center;">
+    <div style="background:#fff; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.18); min-width:400px; max-width:700px; max-height:98vh; padding:20px 16px 16px 16px; position:relative; font-family:'Roboto', Arial, sans-serif; overflow:auto; z-index:5100; display:flex; flex-direction:row; align-items:flex-start; gap:24px;">
+      <button id="close-event-details-modal" style="position:absolute; top:16px; right:16px; background:none; border:none; font-size:22px; color:#831339; cursor:pointer; z-index:5200;">&times;</button>
+      <div style="position:relative; min-width:220px; max-width:320px; flex:0 0 220px;">
+        <img id="event-details-image" src="" alt="Event Image" style="width:100%; max-width:440px; height:auto; border-radius:12px; object-fit:cover; cursor:pointer;">
+        <button id="view-fullscreen-btn" style="display:none; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); background:rgba(131,19,57,0.85); color:#fff; border:none; border-radius:8px; padding:8px 18px; font-size:15px; font-weight:600; cursor:pointer; z-index:2;">View Fullscreen</button>
+      </div>
+      <div style="flex:1; display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-start;">
+        <h2 id="event-details-title" style="margin:0 0 8px 0; font-size:22px; color:#831339; font-weight:700; width:100%; text-align:left;"></h2>
+        <p id="event-details-date" style="margin:0 0 8px 0; color:#6b7280; font-size:15px; width:100%; text-align:left;"></p>
+        <p id="event-details-desc" style="margin:0 0 12px 0; color:#374151; font-size:15px; width:100%; text-align:left;"></p>
+        <p id="event-details-participants" style="margin:0 0 12px 0; color:#1f2937; font-size:15px; width:100%; text-align:left; font-weight:600;"></p>
+        <!-- Admin Action Buttons for Pending Events -->
+        <div id="event-details-admin-actions" style="display:none; margin-top:16px; gap:12px; width:100%;">
+          <button id="modal-approve-btn" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; border: none; padding: 10px 20px; border-radius: 20px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; margin-right: 8px;">Approve Event</button>
+          <button id="modal-reject-btn" style="background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%); color: white; border: none; padding: 10px 20px; border-radius: 20px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">Reject Event</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+// Toggle dropdown menu
+const profileToggle = document.getElementById('profile-toggle');
+const dropdownMenu = document.getElementById('dropdown-menu');
+
+profileToggle.addEventListener('click', function(e) {
+  e.stopPropagation();
+  dropdownMenu.style.display = dropdownMenu.style.display === 'none' ? 'block' : 'none';
+});
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(e) {
+  if (!profileToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+    dropdownMenu.style.display = 'none';
+  }
+});
+
+// Logout functionality from dropdown
+document.getElementById('dropdown-logout').addEventListener('click', function(e) {
+  e.preventDefault();
+  sessionStorage.clear();
+  window.location.href = './Login/login.html';
+});
+
+// Profile link opens profile modal
+document.getElementById('profile-link').addEventListener('click', function(e) {
+  e.preventDefault();
+  const admin_id = sessionStorage.getItem('roll_no') || 'ADMIN001'; // Using roll_no for admin_id, fallback for testing
+
+  const nameEl = document.getElementById('profile-modal-name');
+  const adminIdEl = document.getElementById('profile-modal-admin-id');
+  const emailEl = document.getElementById('profile-modal-email');
+  const avatarDiv = document.getElementById('profile-modal-avatar');
+
+  // Show modal immediately with loading placeholders
+  document.getElementById('profile-modal').style.display = 'flex';
+  
+  // Set loading placeholders
+  nameEl.textContent = 'Loading...';
+  adminIdEl.textContent = 'Admin ID: ' + (admin_id || '');
+  emailEl.textContent = 'Email: Loading...';
+  avatarDiv.textContent = 'A';
+  
+  console.log('[ProfileModal] opening with cache', { admin_id, admin_name: sessionStorage.getItem('admin_name'), email: sessionStorage.getItem('email') });
+
+  // Always fetch fresh details (with cache busting)
+  fetch(`get_admin_user_info.php?roll_no=${encodeURIComponent(admin_id)}&t=${Date.now()}`)
+    .then(res => res.json())
+    .then(data => {
+      console.log('[ProfileModal] fetch response', data);
+      if (!data) return;
+      
+      // Handle name - use returned value or fallback (admin_name instead of full_name)
+      const adminName = (data.admin_name && data.admin_name.trim() !== '' && data.admin_name.toLowerCase() !== 'null') 
+        ? data.admin_name 
+        : (sessionStorage.getItem('admin_name') || 'Admin');
+      nameEl.textContent = adminName;
+      
+      // Handle email - check for valid non-null values
+      const email = (data.email && data.email.trim() !== '' && data.email.toLowerCase() !== 'null') 
+        ? data.email 
+        : 'N/A';
+      emailEl.textContent = 'Email: ' + email;
+      
+      // Show initials if no photo
+      const parts = adminName.split(' ');
+      const initials = (parts[0]?.[0] || 'A') + (parts.length > 1 ? parts[parts.length-1][0] : '');
+      avatarDiv.textContent = initials.toUpperCase();
+      
+      // Cache for next time
+      sessionStorage.setItem('admin_name', adminName);
+      if (email !== 'N/A') sessionStorage.setItem('email', email);
+    })
+    .catch(err => {
+      console.error('[ProfileModal] fetch error', err);
+      // Keep placeholders; nothing else to do
+    });
+});
+
+// Close profile modal
+document.getElementById('close-profile-modal').addEventListener('click', function() {
+  document.getElementById('profile-modal').style.display = 'none';
+});
+
+// Load and display admin information (show cached name first, then refresh)
+document.addEventListener('DOMContentLoaded', function() {
+  const nameEl = document.getElementById('admin-name');
+  const avatarEl = document.getElementById('user-avatar');
+  const ddNameEl = document.getElementById('dropdown-name');
+  const ddAdminIdEl = document.getElementById('dropdown-admin-id');
+
+  const admin_id = sessionStorage.getItem('roll_no') || 'ADMIN001'; // Using roll_no for admin_id, fallback to ADMIN001 for testing
+  console.log('Admin ID being used:', admin_id);
+
+  // 1) Optimistic render from sessionStorage
+  const cachedName = sessionStorage.getItem('admin_name');
+  if (cachedName && nameEl) nameEl.textContent = cachedName;
+  if (ddNameEl) ddNameEl.textContent = cachedName || 'Admin';
+  if (ddAdminIdEl) ddAdminIdEl.textContent = 'Admin ID: ' + admin_id;
+  if (avatarEl && cachedName) {
+    const parts = cachedName.split(' ');
+    const initials = (parts[0]?.[0] || 'A') + (parts.length > 1 ? parts[parts.length-1][0] : '');
+    avatarEl.textContent = initials.toUpperCase();
+  }
+
+  // 2) Refresh from server
+  fetch(`get_admin_user_info.php?roll_no=${encodeURIComponent(admin_id)}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data && data.admin_name) {
+        if (nameEl) nameEl.textContent = data.admin_name;
+        if (ddNameEl) ddNameEl.textContent = data.admin_name;
+        if (ddAdminIdEl) ddAdminIdEl.textContent = 'Admin ID: ' + admin_id;
+        if (avatarEl) {
+          const parts = data.admin_name.split(' ');
+          const initials = (parts[0]?.[0] || 'A') + (parts.length > 1 ? parts[parts.length-1][0] : '');
+          avatarEl.textContent = initials.toUpperCase();
+        }
+        sessionStorage.setItem('email', data.email || '');
+        sessionStorage.setItem('admin_name', data.admin_name || '');
+      } else {
+        if (nameEl) nameEl.textContent = 'ADMIN';
+        if (avatarEl) avatarEl.textContent = 'A';
+        if (ddNameEl) ddNameEl.textContent = 'Admin';
+        if (ddAdminIdEl) ddAdminIdEl.textContent = 'Admin ID: ' + admin_id;
+      }
+    })
+    .catch(() => {
+      if (nameEl) nameEl.textContent = cachedName || 'ADMIN';
+      if (avatarEl) avatarEl.textContent = 'A';
+      if (ddNameEl) ddNameEl.textContent = cachedName || 'Admin';
+      if (ddAdminIdEl) ddAdminIdEl.textContent = 'Admin ID: ' + admin_id;
+    });
+});
+
+// Logout button functionality (keep old button functionality as fallback)
+const logoutBtn = document.getElementById('logout-btn');
+if (logoutBtn) {
+  logoutBtn.onclick = function() {
+    sessionStorage.clear();
+    window.location.href = './Login/login.html';
+  };
+}
+function showTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+  document.querySelector('.tab[onclick="showTab(\'' + tab + '\')"]').classList.add('active');
+  document.getElementById(tab).classList.add('active');
+}
+
+// Helper function to get correct image path
+function getImagePath(imagePath) {
+  if (!imagePath || imagePath === '') {
+    return '../assets/img/event-placeholder.svg';
+  }
+  // If it's already an absolute URL or starts with http, return as is
+  if (imagePath.startsWith('http') || imagePath.startsWith('/')) {
+    return imagePath;
+  }
+  // Otherwise, prepend ../ for relative paths from dashboard folders
+  return '../' + imagePath;
+}
+
+// Load pending events
+function loadPendingEvents() {
+  fetch('get_pending_events.php')
+    .then(res => res.json())
+    .then(data => {
+      if (data.length === 0) {
+        document.getElementById('pending-events-list').textContent = "No pending events.";
+        return;
+      }
+      document.getElementById('pending-events-list').innerHTML =
+        `<div class="container"><div class="card__container">` +
+        data.map(event => `
+          <article class="card__article">
+            <img src="${getImagePath(event.image_path)}" alt="Brochure Image" class="card__img" style="cursor:pointer;" onclick="showEventDetails(${event.event_id})">
+            <div class="card__data">
+              <span class="card__description">${event.description || ''}</span>
+              <h2 class="card__title">${event.event_name}</h2>
+              <span class="card__description">${event.date}</span>
+              <span class="card__description">Status: ${event.status}</span>
+              <div style="display: flex; gap: 8px; margin-top: auto;">
+                <button class="approve-btn" onclick="approveEvent(${event.event_id})">Approve</button>
+                <button class="reject-btn" onclick="rejectEvent(${event.event_id})">Reject</button>
+              </div>
+            </div>
+          </article>
+        `).join('') + `</div></div>`;
+    });
+}
+
+// Load all events
+function loadAllEvents() {
+  fetch('get_all_events.php')
+    .then(res => res.json())
+    .then(data => {
+      if (data.length === 0) {
+        document.getElementById('all-events-list').textContent = "No events.";
+        return;
+      }
+      document.getElementById('all-events-list').innerHTML =
+        `<div class="container"><div class="card__container">` +
+        data.map(event => `
+          <article class="card__article" style="position: relative;">
+            <img src="${getImagePath(event.image_path)}" alt="Brochure Image" class="card__img" style="cursor:pointer;" onclick="showEventDetails(${event.event_id})">
+            <!-- Status Hover Overlay -->
+            <div class="status-overlay" style="
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              background: ${event.status === 'approved' ? 'rgba(40, 167, 69, 0.85)' : event.status === 'rejected' ? 'rgba(220, 53, 69, 0.85)' : 'rgba(255, 193, 7, 0.85)'};
+              color: white;
+              display: none;
+              justify-content: center;
+              align-items: center;
+              font-weight: bold;
+              font-size: 20px;
+              border-radius: 20px;
+              z-index: 10;
+              transition: all 0.3s ease;
+              text-transform: uppercase;
+            ">${event.status}</div>
+            <div class="card__data">
+              <span class="card__description">${event.description || ''}</span>
+              <h2 class="card__title">${event.event_name}</h2>
+              <span class="card__description">${event.date}</span>
+              <span class="card__description">Status: <strong style="color: ${event.status === 'approved' ? '#28a745' : event.status === 'rejected' ? '#dc3545' : '#ffc107'}">${event.status}</strong></span>
+              <button class="card__button" onclick="editEvent(${event.event_id})">Edit</button>
+            </div>
+          </article>
+        `).join('') + `</div></div>`;
+      
+      // Add hover functionality for status overlays
+      setTimeout(() => {
+        document.querySelectorAll('.card__article').forEach(article => {
+          const statusOverlay = article.querySelector('.status-overlay');
+          if (statusOverlay) {
+            article.addEventListener('mouseenter', () => {
+              statusOverlay.style.display = 'flex';
+            });
+            article.addEventListener('mouseleave', () => {
+              statusOverlay.style.display = 'none';
+            });
+          }
+        });
+      }, 100);
+    });
+}
+
+// Approve event
+function approveEvent(event_id) {
+  fetch('approve_event.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `event_id=${event_id}`
+  })
+  .then(res => res.text())
+  .then(msg => {
+    alert(msg);
+    loadPendingEvents();
+    loadAllEvents();
+  });
+}
+
+// Reject event
+function rejectEvent(event_id) {
+  fetch('reject_event.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `event_id=${event_id}`
+  })
+  .then(res => res.text())
+  .then(msg => {
+    alert(msg);
+    loadPendingEvents();
+    loadAllEvents();
+  });
+}
+
+// Edit event
+function editEvent(event_id) {
+  // Fetch event details and populate form
+  fetch(`../API/get_event_details.php?event_id=${event_id}`)
+    .then(res => res.json())
+    .then(event => {
+      document.getElementById('edit_event_id').value = event.event_id;
+      document.getElementById('edit_event_name').value = event.event_name;
+      document.getElementById('edit_date').value = event.date;
+      document.getElementById('edit_description').value = event.description;
+      // Populate coordinators select
+      loadStudentsForCoordinators(event.coordinators || []);
+      showTab('edit');
+    });
+}
+
+// Load students for coordinators select
+function loadStudentsForCoordinators(selected) {
+  fetch('../Staff/get_students.php')
+    .then(res => res.json())
+    .then(students => {
+      const select = document.getElementById('edit_coordinators');
+      select.innerHTML = '';
+      students.forEach(student => {
+        const option = document.createElement('option');
+        option.value = student.id;
+        option.textContent = `${student.full_name} (${student.roll_no})`;
+        if (selected.includes(student.id)) option.selected = true;
+        select.appendChild(option);
+      });
+    });
+}
+
+loadPendingEvents();
+loadAllEvents();
+
+document.getElementById('edit-event-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const formData = new FormData(this);
+  fetch('../Staff/edit_event.php', {
+    method: 'POST',
+    body: formData
+  })
+  .then(res => res.text())
+  .then(msg => {
+    alert(msg);
+    loadPendingEvents();
+    loadAllEvents();
+    showTab('all');
+    document.getElementById('edit-event-form').reset();
+  });
+});
+
+// Show event details modal (adapted from staff dashboard)
+let eventImageUrl = '';
+let currentEventId = null;
+
+function showEventDetails(event_id) {
+  currentEventId = event_id;
+  fetch(`../API/get_event_details.php?event_id=${event_id}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.error) {
+        alert(data.error);
+        return;
+      }
+      eventImageUrl = data.image_path && data.image_path !== '' ? '../' + data.image_path : '../assets/img/event-placeholder.svg';
+      document.getElementById('event-details-image').src = eventImageUrl;
+      
+      // Always show read-only details for admin dashboard
+      document.getElementById('event-details-title').textContent = data.event_name;
+      document.getElementById('event-details-date').textContent = 'Date: ' + (data.date || 'N/A');
+      document.getElementById('event-details-desc').textContent = data.description || '';
+      
+      // Hide participants info for admin dashboard as requested
+      document.getElementById('event-details-participants').style.display = 'none';
+      
+      // Show admin action buttons only for pending events
+      const adminActions = document.getElementById('event-details-admin-actions');
+      const currentTab = document.querySelector('.tab.active').textContent.trim();
+      if (currentTab === 'Pending Events' && data.status === 'pending') {
+        adminActions.style.display = 'flex';
+      } else {
+        adminActions.style.display = 'none';
+      }
+      
+      document.getElementById('event-details-modal').style.display = 'flex';
+    })
+    .catch(() => {
+      alert('Could not load event details.');
+    });
+}
+
+// Handle modal approve/reject buttons
+document.getElementById('modal-approve-btn').addEventListener('click', function() {
+  if (currentEventId) {
+    approveEvent(currentEventId);
+    document.getElementById('event-details-modal').style.display = 'none';
+  }
+});
+
+document.getElementById('modal-reject-btn').addEventListener('click', function() {
+  if (currentEventId) {
+    rejectEvent(currentEventId);
+    document.getElementById('event-details-modal').style.display = 'none';
+  }
+});
+
+// Close event details modal
+document.getElementById('close-event-details-modal').addEventListener('click', function() {
+  document.getElementById('event-details-modal').style.display = 'none';
+});
+
+// Fullscreen image functionality
+const eventImage = document.getElementById('event-details-image');
+const fullscreenBtn = document.getElementById('view-fullscreen-btn');
+let fullscreenBtnVisible = false;
+let hideBtnTimeout = null;
+
+function showFullscreenBtn() {
+  if (hideBtnTimeout) clearTimeout(hideBtnTimeout);
+  fullscreenBtn.style.display = 'block';
+  fullscreenBtnVisible = true;
+}
+
+function hideFullscreenBtn() {
+  hideBtnTimeout = setTimeout(() => {
+    fullscreenBtn.style.display = 'none';
+    fullscreenBtnVisible = false;
+  }, 120);
+}
+
+eventImage.addEventListener('mouseover', showFullscreenBtn);
+eventImage.addEventListener('mouseout', hideFullscreenBtn);
+fullscreenBtn.addEventListener('mouseover', showFullscreenBtn);
+fullscreenBtn.addEventListener('mouseout', hideFullscreenBtn);
+
+fullscreenBtn.addEventListener('click', function() {
+  if (eventImageUrl) {
+    openImageFullscreen(eventImageUrl);
+  }
+});
+
+// Fullscreen modal for image
+function openImageFullscreen(imgUrl) {
+  let fsModal = document.getElementById('image-fullscreen-modal');
+  if (!fsModal) {
+    fsModal = document.createElement('div');
+    fsModal.id = 'image-fullscreen-modal';
+    fsModal.style.position = 'fixed';
+    fsModal.style.top = '0';
+    fsModal.style.left = '0';
+    fsModal.style.width = '100vw';
+    fsModal.style.height = '100vh';
+    fsModal.style.background = 'rgba(0,0,0,0.95)';
+    fsModal.style.zIndex = '9999';
+    fsModal.style.display = 'flex';
+    fsModal.style.justifyContent = 'center';
+    fsModal.style.alignItems = 'center';
+    fsModal.innerHTML = `<img id="fullscreen-img" src="${imgUrl}" style="max-width:90vw; max-height:90vh; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.18);"><button id="close-image-fullscreen" style="position:absolute; top:32px; right:48px; background:none; border:none; font-size:32px; color:#fff; cursor:pointer;">&times;</button>`;
+    document.body.appendChild(fsModal);
+    document.getElementById('close-image-fullscreen').onclick = function() {
+      fsModal.remove();
+    };
+    fsModal.onclick = function(e) {
+      if (e.target === fsModal) fsModal.remove();
+    };
+  } else {
+    const img = document.getElementById('fullscreen-img');
+    if (img) img.src = imgUrl;
+    fsModal.style.display = 'flex';
+  }
+}
+</script>
+</body>
+</html>

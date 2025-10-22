@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - Event Management System</title>
+  <link rel="stylesheet" href="login.css" />
+</head>
+<body>
+  <div class="login-background">
+    <div class="login-container">
+      <div class="login-box">
+        <!-- University Logo -->
+        <div class="logo-container">
+          <img src="../assets/sathyabama_logo.png" alt="Sathyabama University" class="university-logo">
+        </div>
+        
+        <!-- User Type Dropdown -->
+        <div class="dropdown-container">
+          <select id="user-type" name="role" form="login-form">
+            <option value="student">Student</option>
+            <option value="staff">Staff</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        
+        <form id="login-form" action="login.php" method="POST">
+          <!-- Register Number Field -->
+          <div class="input-group">
+            <label for="roll_no" id="login-label">Register Number</label>
+            <input
+              type="text"
+              id="roll_no"
+              name="roll_no"
+              placeholder="Register Number"
+              required
+            />
+          </div>
+          
+          <!-- Password Field -->
+          <div class="input-group">
+            <label for="password">Password</label>
+            <div class="password-container">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter Password"
+                required
+              />
+              <button type="button" class="password-toggle" onclick="togglePassword()">
+                👁️
+              </button>
+            </div>
+          </div>
+          
+          <!-- Login Button -->
+          <button type="submit" class="login-btn">LOG IN</button>
+        </form>
+        
+        <!-- Forgot Password Link -->
+        <p class="forgot-password">
+          <a href="#">Forgot your password?</a>
+        </p>
+        
+        <!-- Sign Up Link -->
+        <p class="signup-link">
+          Don't have an account? 
+          <a href="../Register/signup.html">Sign Up here</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Toggle password visibility
+    function togglePassword() {
+      const passwordField = document.getElementById('password');
+      const toggleBtn = document.querySelector('.password-toggle');
+      
+      if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        toggleBtn.textContent = '🙈';
+      } else {
+        passwordField.type = 'password';
+        toggleBtn.textContent = '👁️';
+      }
+    }
+
+    // Change label text and links based on selected user type
+    document.addEventListener('DOMContentLoaded', function() {
+      const userTypeSelect = document.getElementById('user-type');
+      const rollLabel = document.getElementById('login-label');
+      const rollInput = document.getElementById('roll_no');
+      const forgotPasswordP = document.querySelector('.forgot-password');
+      const signupLinkP = document.querySelector('.signup-link');
+
+      function updateLabel() {
+        const selectedValue = userTypeSelect.value;
+        if (selectedValue === 'staff' || selectedValue === 'admin') {
+          rollLabel.textContent = 'Identification Number';
+          rollInput.placeholder = 'Identification Number';
+          // Show forgot password, hide sign up for staff/admin
+          forgotPasswordP.style.display = 'block';
+          signupLinkP.style.display = 'none';
+        } else {
+          rollLabel.textContent = 'Register Number';
+          rollInput.placeholder = 'Register Number';
+          // Show sign up, hide forgot password for students
+          forgotPasswordP.style.display = 'none';
+          signupLinkP.style.display = 'block';
+        }
+      }
+
+      userTypeSelect.addEventListener('change', updateLabel);
+      updateLabel();
+
+      // Set the role value in the form when dropdown changes
+      userTypeSelect.addEventListener('change', function() {
+        const hiddenRoleInput = document.createElement('input');
+        hiddenRoleInput.type = 'hidden';
+        hiddenRoleInput.name = 'role';
+        hiddenRoleInput.value = this.value;
+        
+        // Remove existing hidden role input
+        const existingInput = document.querySelector('input[name="role"][type="hidden"]');
+        if (existingInput) {
+          existingInput.remove();
+        }
+        
+        // Add new hidden input
+        document.getElementById('login-form').appendChild(hiddenRoleInput);
+      });
+
+      // Set initial role value
+      const initialRoleInput = document.createElement('input');
+      initialRoleInput.type = 'hidden';
+      initialRoleInput.name = 'role';
+      initialRoleInput.value = userTypeSelect.value;
+      document.getElementById('login-form').appendChild(initialRoleInput);
+    });
+  </script>
+  <script src="login.js"></script>
+</body>
+</html>

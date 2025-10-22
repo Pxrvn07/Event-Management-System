@@ -1,0 +1,7 @@
+/Applications/XAMPP/xamppfiles/htdocs/EventManagementSystem/java-email-service/src/main/java/com/sathyabama/email/controller/EmailController.java
+/Applications/XAMPP/xamppfiles/htdocs/EventManagementSystem/java-email-service/src/main/java/com/sathyabama/email/EmailServiceApplication.java
+/Applications/XAMPP/xamppfiles/htdocs/EventManagementSystem/java-email-service/src/main/java/com/sathyabama/email/service/EmailService.java
+/Applications/XAMPP/xamppfiles/htdocs/EventManagementSystem/java-email-service/src/main/java/com/sathyabama/email/config/DevEmailConfig.java
+/Applications/XAMPP/xamppfiles/htdocs/EventManagementSystem/java-email-service/src/main/java/com/sathyabama/email/model/EmailResponse.java
+/Applications/XAMPP/xamppfiles/htdocs/EventManagementSystem/java-email-service/src/main/java/com/sathyabama/email/config/WebConfig.java
+/Applications/XAMPP/xamppfiles/htdocs/EventManagementSystem/java-email-service/src/main/java/com/sathyabama/email/model/EmailRequest.java
