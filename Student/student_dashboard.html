@@ -106,11 +106,38 @@
   <div id="profile-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:6000; justify-content:center; align-items:center;">
     <div style="background:#fff; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.18); min-width:400px; max-width:500px; padding:32px; position:relative; font-family:'Roboto', Arial, sans-serif; text-align:center;">
       <button id="close-profile-modal" style="position:absolute; top:16px; right:16px; background:none; border:none; font-size:24px; color:#831339; cursor:pointer;">&times;</button>
-      <div id="profile-modal-avatar" style="width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg, #831339 0%, #a81746 100%); display:flex; align-items:center; justify-content:center; color:white; font-weight:bold; font-size:32px; margin:0 auto 20px auto;"></div>
-      <h2 id="profile-modal-name" style="margin:0 0 8px 0; font-size:24px; color:#831339; font-weight:700;">Student</h2>
-      <p id="profile-modal-roll" style="margin:0 0 16px 0; color:#6b7280; font-size:16px;">Roll No:</p>
-      <p id="profile-modal-email" style="margin:0 0 8px 0; color:#374151; font-size:16px;">Email:</p>
-      <p id="profile-modal-phone" style="margin:0 0 0 0; color:#374151; font-size:16px;">Phone:</p>
+      
+      <!-- Profile View Mode -->
+      <div id="profile-view-mode">
+        <div id="profile-modal-avatar" style="width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg, #831339 0%, #a81746 100%); display:flex; align-items:center; justify-content:center; color:white; font-weight:bold; font-size:32px; margin:0 auto 20px auto;"></div>
+        <h2 id="profile-modal-name" style="margin:0 0 8px 0; font-size:24px; color:#831339; font-weight:700;">Student</h2>
+        <p id="profile-modal-roll" style="margin:0 0 16px 0; color:#6b7280; font-size:16px;">Roll No:</p>
+        <p id="profile-modal-email" style="margin:0 0 8px 0; color:#374151; font-size:16px;">Email:</p>
+        <p id="profile-modal-phone" style="margin:0 0 16px 0; color:#374151; font-size:16px;">Phone:</p>
+        <button id="edit-profile-btn" style="background:#831339; color:white; border:none; padding:8px 16px; border-radius:8px; cursor:pointer; font-size:14px;">Edit Profile</button>
+      </div>
+      
+      <!-- Profile Edit Mode -->
+      <div id="profile-edit-mode" style="display:none;">
+        <form id="profile-update-form" enctype="multipart/form-data">
+          <div style="margin-bottom:20px;">
+            <label for="profile-photo-input" style="display:block; margin-bottom:8px; color:#374151; font-weight:600;">Profile Photo:</label>
+            <input type="file" id="profile-photo-input" name="profile_photo" accept="image/*" style="width:100%; padding:8px; border:1px solid #d1d5db; border-radius:4px;">
+          </div>
+          <div style="margin-bottom:20px;">
+            <label for="full-name-input" style="display:block; margin-bottom:8px; color:#374151; font-weight:600;">Full Name:</label>
+            <input type="text" id="full-name-input" name="full_name" style="width:100%; padding:8px; border:1px solid #d1d5db; border-radius:4px;">
+          </div>
+          <div style="margin-bottom:20px;">
+            <label for="phone-input" style="display:block; margin-bottom:8px; color:#374151; font-weight:600;">Phone:</label>
+            <input type="text" id="phone-input" name="phone" style="width:100%; padding:8px; border:1px solid #d1d5db; border-radius:4px;">
+          </div>
+          <div style="display:flex; gap:10px; justify-content:center;">
+            <button type="submit" style="background:#831339; color:white; border:none; padding:8px 16px; border-radius:8px; cursor:pointer; font-size:14px;">Save Changes</button>
+            <button type="button" id="cancel-edit-btn" style="background:#6b7280; color:white; border:none; padding:8px 16px; border-radius:8px; cursor:pointer; font-size:14px;">Cancel</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 <script>
@@ -192,8 +219,24 @@ document.addEventListener('click', function(e) {
 // Logout functionality from dropdown
 document.getElementById('dropdown-logout').addEventListener('click', function(e) {
   e.preventDefault();
+  
+  // Clear client-side storage
   sessionStorage.clear();
-  window.location.href = './Login/login.html';
+  localStorage.clear();
+  
+  // Call logout API to destroy server session
+  fetch('../API/logout.php', {
+    method: 'POST',
+    credentials: 'include'
+  })
+  .then(() => {
+    // Redirect to login page
+    window.location.href = '../Login/login.html';
+  })
+  .catch(() => {
+    // Even if API fails, still redirect to login
+    window.location.href = '../Login/login.html';
+  });
 });
 
 // Profile link opens profile modal (always refresh from server for accuracy)
@@ -246,7 +289,8 @@ document.getElementById('profile-link').addEventListener('click', function(e) {
       
       // Handle profile photo
       if (data.profile_photo && data.profile_photo !== '' && data.profile_photo.toLowerCase() !== 'null') {
-        avatarDiv.innerHTML = `<img src="${data.profile_photo}" alt="Profile" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+        const profilePhotoPath = data.profile_photo.startsWith('uploads/') ? '../' + data.profile_photo : data.profile_photo;
+        avatarDiv.innerHTML = `<img src="${profilePhotoPath}" alt="Profile" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
       } else {
         // Show initials if no photo
         const parts = fullName.split(' ');
@@ -271,6 +315,81 @@ document.getElementById('profile-link').addEventListener('click', function(e) {
 // Close profile modal
 document.getElementById('close-profile-modal').addEventListener('click', function() {
   document.getElementById('profile-modal').style.display = 'none';
+  // Reset to view mode when closing
+  document.getElementById('profile-view-mode').style.display = 'block';
+  document.getElementById('profile-edit-mode').style.display = 'none';
+});
+
+// Profile editing functionality
+document.getElementById('edit-profile-btn').addEventListener('click', function() {
+  // Switch to edit mode
+  document.getElementById('profile-view-mode').style.display = 'none';
+  document.getElementById('profile-edit-mode').style.display = 'block';
+  
+  // Pre-fill form with current values
+  const currentName = document.getElementById('profile-modal-name').textContent;
+  const currentPhone = document.getElementById('profile-modal-phone').textContent.replace('Phone: ', '');
+  
+  document.getElementById('full-name-input').value = currentName;
+  document.getElementById('phone-input').value = currentPhone !== 'N/A' ? currentPhone : '';
+});
+
+document.getElementById('cancel-edit-btn').addEventListener('click', function() {
+  // Switch back to view mode
+  document.getElementById('profile-view-mode').style.display = 'block';
+  document.getElementById('profile-edit-mode').style.display = 'none';
+});
+
+// Handle profile update form submission
+document.getElementById('profile-update-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  const formData = new FormData(this);
+  
+  fetch('../API/update_profile.php', {
+    method: 'POST',
+    body: formData,
+    credentials: 'include'
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      // Update UI with new data
+      if (data.user.full_name) {
+        document.getElementById('profile-modal-name').textContent = data.user.full_name;
+        document.getElementById('student-name').textContent = data.user.full_name;
+        document.getElementById('dropdown-name').textContent = data.user.full_name;
+        sessionStorage.setItem('full_name', data.user.full_name);
+      }
+      
+      if (data.user.phone) {
+        document.getElementById('profile-modal-phone').textContent = 'Phone: ' + data.user.phone;
+        sessionStorage.setItem('phone', data.user.phone);
+      }
+      
+      if (data.user.profile_photo) {
+        const profilePhotoPath = data.user.profile_photo.startsWith('uploads/') ? '../' + data.user.profile_photo : data.user.profile_photo;
+        
+        // Update both avatars
+        document.getElementById('profile-modal-avatar').innerHTML = `<img src="${profilePhotoPath}" alt="Profile" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+        document.getElementById('user-avatar').innerHTML = `<img src="${profilePhotoPath}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+        
+        sessionStorage.setItem('profile_photo', data.user.profile_photo);
+      }
+      
+      // Switch back to view mode
+      document.getElementById('profile-view-mode').style.display = 'block';
+      document.getElementById('profile-edit-mode').style.display = 'none';
+      
+      alert('Profile updated successfully!');
+    } else {
+      alert('Error: ' + data.message);
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('An error occurred while updating profile');
+  });
 });
 
 // Load and display student information (show cached name first, then refresh)
@@ -295,7 +414,8 @@ document.addEventListener('DOMContentLoaded', function() {
   if (ddRollEl) ddRollEl.textContent = 'Roll No: ' + roll_no;
   if (avatarEl) {
     if (cachedPhoto) {
-      avatarEl.innerHTML = `<img src="${cachedPhoto}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+      const profilePhotoPath = cachedPhoto.startsWith('uploads/') ? '../' + cachedPhoto : cachedPhoto;
+      avatarEl.innerHTML = `<img src="${profilePhotoPath}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
     } else if (cachedName) {
       const parts = cachedName.split(' ');
       const initials = (parts[0]?.[0] || 'S') + (parts.length > 1 ? parts[parts.length-1][0] : '');
@@ -313,7 +433,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (ddRollEl) ddRollEl.textContent = 'Roll No: ' + roll_no;
         if (avatarEl) {
           if (data.profile_photo && data.profile_photo !== '') {
-            avatarEl.innerHTML = `<img src="${data.profile_photo}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+            const profilePhotoPath = data.profile_photo.startsWith('uploads/') ? '../' + data.profile_photo : data.profile_photo;
+            avatarEl.innerHTML = `<img src="${profilePhotoPath}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
           } else {
             const parts = data.full_name.split(' ');
             const initials = (parts[0]?.[0] || 'S') + (parts.length > 1 ? parts[parts.length-1][0] : '');

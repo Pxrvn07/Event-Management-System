@@ -32,8 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
             // Generate unique filename
             $file_extension = pathinfo($_FILES['profile_photo']['name'], PATHINFO_EXTENSION);
-            $unique_filename = 'profile_' . uniqid() . '.' . $file_extension;
-            $upload_dir = '../uploads/';
+            $unique_filename = 'profile_' . $roll_no . '_' . time() . '.' . $file_extension;
+            $upload_dir = '../uploads/profiles/';
             $upload_path = $upload_dir . $unique_filename;
             
             // Create uploads directory if it doesn't exist
@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
             
             if (move_uploaded_file($_FILES['profile_photo']['tmp_name'], $upload_path)) {
-                $profile_photo_path = 'uploads/' . $unique_filename;
+                $profile_photo_path = 'uploads/profiles/' . $unique_filename;
             } else {
                 echo "Failed to upload profile photo.";
                 exit();

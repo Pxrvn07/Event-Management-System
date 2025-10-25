@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Test</title>
+</head>
+<body>
+    <h1>Profile Image Test</h1>
+    
+    <h2>Direct Path Test:</h2>
+    <img src="uploads/profiles/arjun_patel.svg" alt="Arjun Direct" style="width: 100px; height: 100px; border: 1px solid black;">
+    
+    <h2>From Student Dashboard Perspective:</h2>
+    <img src="../uploads/profiles/arjun_patel.svg" alt="Arjun From Student" style="width: 100px; height: 100px; border: 1px solid black;">
+    
+    <h2>All Profile Images:</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+        <div>
+            <p>Arjun Patel</p>
+            <img src="uploads/profiles/arjun_patel.svg" alt="Arjun" style="width: 80px; height: 80px; border: 1px solid black;">
+        </div>
+        <div>
+            <p>Priya Krishnan</p>
+            <img src="uploads/profiles/priya_krishnan.svg" alt="Priya" style="width: 80px; height: 80px; border: 1px solid black;">
+        </div>
+        <div>
+            <p>Rahul Sharma</p>
+            <img src="uploads/profiles/rahul_sharma.svg" alt="Rahul" style="width: 80px; height: 80px; border: 1px solid black;">
+        </div>
+        <div>
+            <p>Sneha Gupta</p>
+            <img src="uploads/profiles/sneha_gupta.svg" alt="Sneha" style="width: 80px; height: 80px; border: 1px solid black;">
+        </div>
+        <div>
+            <p>Vikram Singh</p>
+            <img src="uploads/profiles/vikram_singh.svg" alt="Vikram" style="width: 80px; height: 80px; border: 1px solid black;">
+        </div>
+    </div>
+    
+    <h2>Image Loading Test with JavaScript:</h2>
+    <div id="js-test-result"></div>
+    
+    <script>
+        function testImageLoad(src, name) {
+            const img = new Image();
+            img.onload = function() {
+                document.getElementById('js-test-result').innerHTML += `<p style="color: green;">✓ ${name}: ${src} - LOADED</p>`;
+            };
+            img.onerror = function() {
+                document.getElementById('js-test-result').innerHTML += `<p style="color: red;">✗ ${name}: ${src} - FAILED</p>`;
+            };
+            img.src = src;
+        }
+        
+        // Test different paths
+        testImageLoad('uploads/profiles/arjun_patel.svg', 'Direct Path');
+        testImageLoad('../uploads/profiles/arjun_patel.svg', 'Relative Path');
+        testImageLoad('/EventManagementSystem/uploads/profiles/arjun_patel.svg', 'Absolute Path');
+    </script>
+</body>
+</html>

@@ -136,8 +136,24 @@ document.addEventListener('click', function(e) {
 // Logout functionality from dropdown
 document.getElementById('dropdown-logout').addEventListener('click', function(e) {
   e.preventDefault();
+  
+  // Clear client-side storage
   sessionStorage.clear();
-  window.location.href = './Login/login.html';
+  localStorage.clear();
+  
+  // Call logout API to destroy server session
+  fetch('../API/logout.php', {
+    method: 'POST',
+    credentials: 'include'
+  })
+  .then(() => {
+    // Redirect to login page
+    window.location.href = '../Login/login.html';
+  })
+  .catch(() => {
+    // Even if API fails, still redirect to login
+    window.location.href = '../Login/login.html';
+  });
 });
 
 // Profile link opens profile modal
