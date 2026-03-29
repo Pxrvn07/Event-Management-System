@@ -66,14 +66,14 @@ try {
 
         if (in_array($img_ext, $allowed)) {
             $img_new_name = uniqid('brochure_', true) . '.' . $img_ext;
-            $img_dest = '../uploads/' . $img_new_name;
+            $img_dest = '../../uploads/' . $img_new_name;
 
             if (!is_dir('../uploads')) {
                 mkdir('../uploads', 0777, true);
             }
 
             if (move_uploaded_file($img_tmp, $img_dest)) {
-                $image_path = 'uploads/' . $img_new_name;
+                $image_path = '../../uploads/' . $img_new_name;
             } else {
                 throw new Exception("Failed to upload image.");
             }

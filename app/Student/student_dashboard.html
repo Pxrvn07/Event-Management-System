@@ -16,7 +16,7 @@
   <header>
     <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 32px; background: #831339; min-height: 72px;">
       <div style="display: flex; align-items: center; gap: 20px;">
-        <img src="../assets/sathyabama_logo.png" alt="Sathyabama Logo" style="height: 48px; width: auto;">
+        <img src="../../assets/sathyabama_logo.png" alt="Sathyabama Logo" style="height: 48px; width: auto;">
         </div>
       <div style="display: flex; align-items: center; gap: 0;">
         <div style="position: relative;">
@@ -289,7 +289,7 @@ document.getElementById('profile-link').addEventListener('click', function(e) {
       
       // Handle profile photo
       if (data.profile_photo && data.profile_photo !== '' && data.profile_photo.toLowerCase() !== 'null') {
-        const profilePhotoPath = data.profile_photo.startsWith('uploads/') ? '../' + data.profile_photo : data.profile_photo;
+        const profilePhotoPath = data.profile_photo.startsWith('../../uploads/') ? '../' + data.profile_photo : data.profile_photo;
         avatarDiv.innerHTML = `<img src="${profilePhotoPath}" alt="Profile" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
       } else {
         // Show initials if no photo
@@ -368,7 +368,7 @@ document.getElementById('profile-update-form').addEventListener('submit', functi
       }
       
       if (data.user.profile_photo) {
-        const profilePhotoPath = data.user.profile_photo.startsWith('uploads/') ? '../' + data.user.profile_photo : data.user.profile_photo;
+        const profilePhotoPath = data.user.profile_photo.startsWith('../../uploads/') ? '../' + data.user.profile_photo : data.user.profile_photo;
         
         // Update both avatars
         document.getElementById('profile-modal-avatar').innerHTML = `<img src="${profilePhotoPath}" alt="Profile" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
@@ -414,7 +414,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (ddRollEl) ddRollEl.textContent = 'Roll No: ' + roll_no;
   if (avatarEl) {
     if (cachedPhoto) {
-      const profilePhotoPath = cachedPhoto.startsWith('uploads/') ? '../' + cachedPhoto : cachedPhoto;
+      const profilePhotoPath = cachedPhoto.startsWith('../../uploads/') ? '../' + cachedPhoto : cachedPhoto;
       avatarEl.innerHTML = `<img src="${profilePhotoPath}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
     } else if (cachedName) {
       const parts = cachedName.split(' ');
@@ -433,7 +433,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (ddRollEl) ddRollEl.textContent = 'Roll No: ' + roll_no;
         if (avatarEl) {
           if (data.profile_photo && data.profile_photo !== '') {
-            const profilePhotoPath = data.profile_photo.startsWith('uploads/') ? '../' + data.profile_photo : data.profile_photo;
+            const profilePhotoPath = data.profile_photo.startsWith('../../uploads/') ? '../' + data.profile_photo : data.profile_photo;
             avatarEl.innerHTML = `<img src="${profilePhotoPath}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
           } else {
             const parts = data.full_name.split(' ');
@@ -470,7 +470,7 @@ function showTab(tab) {
 // Helper function to get correct image path
 function getImagePath(imagePath) {
   if (!imagePath || imagePath === '') {
-    return '../assets/img/event-placeholder.svg';
+    return '../../assets/img/event-placeholder.svg';
   }
   // If it's already an absolute URL or starts with http, return as is
   if (imagePath.startsWith('http') || imagePath.startsWith('/')) {
@@ -531,7 +531,7 @@ function loadApprovedEvents() {
             </article>
             ${isClosed ? `
             <div id="overlay-${event.event_id}" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000; pointer-events: none;">
-              <img src="../assets/registration_closed.png" alt="Registration Closed" style="width: 160px; height: auto;" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'background: #fbbf24; color: #000; font-weight: bold; font-size: 16px; text-align: center; padding: 12px 18px; border: 2px solid #d97706; text-transform: uppercase; border-radius: 8px;\\'>REGISTRATION<br>CLOSED</div>';">
+              <img src="../../assets/registration_closed.png" alt="Registration Closed" style="width: 160px; height: auto;" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'background: #fbbf24; color: #000; font-weight: bold; font-size: 16px; text-align: center; padding: 12px 18px; border: 2px solid #d97706; text-transform: uppercase; border-radius: 8px;\\'>REGISTRATION<br>CLOSED</div>';">
             </div>
             ` : ''}
           </div>
@@ -549,7 +549,7 @@ function showEventDetails(event_id) {
         alert(data.error);
         return;
       }
-      eventImageUrl = data.image_path && data.image_path !== '' ? '../' + data.image_path : '../assets/img/event-placeholder.svg';
+      eventImageUrl = data.image_path && data.image_path !== '' ? '../' + data.image_path : '../../assets/img/event-placeholder.svg';
       document.getElementById('event-details-image').src = eventImageUrl;
       // Always show read-only details for both Registered and Your Events tabs
       document.getElementById('event-details-title').style.display = 'block';

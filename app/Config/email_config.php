@@ -54,7 +54,7 @@ class EmailService {
      */
     private function logEmailInsteadOfSending($to_email, $subject, $html_body) {
         $timestamp = date('Y-m-d_H-i-s');
-        $filename = "logs/email_{$timestamp}_" . preg_replace('/[^a-zA-Z0-9]/', '_', $to_email) . ".html";
+        $filename = "../../services/logs/email_{$timestamp}_" . preg_replace('/[^a-zA-Z0-9]/', '_', $to_email) . ".html";
         
         // Create logs directory if it doesn't exist
         if (!file_exists('logs')) {
@@ -199,7 +199,7 @@ class EmailService {
         }
         
         // Write to log file
-        file_put_contents('logs/email_log.txt', $log_entry, FILE_APPEND | LOCK_EX);
+        file_put_contents('../../services/logs/email_log.txt', $log_entry, FILE_APPEND | LOCK_EX);
     }
 
     /**

@@ -161,7 +161,7 @@ class JavaEmailService {
         }
         
         // Write to log file
-        file_put_contents('logs/email_log.txt', $log_entry, FILE_APPEND | LOCK_EX);
+        file_put_contents('../../services/logs/email_log.txt', $log_entry, FILE_APPEND | LOCK_EX);
     }
 
     /**

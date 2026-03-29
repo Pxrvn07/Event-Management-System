@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Generate unique filename
             $file_extension = pathinfo($_FILES['profile_photo']['name'], PATHINFO_EXTENSION);
             $unique_filename = 'profile_' . $roll_no . '_' . time() . '.' . $file_extension;
-            $upload_dir = '../uploads/profiles/';
+            $upload_dir = '../../uploads/profiles/';
             $upload_path = $upload_dir . $unique_filename;
             
             // Create uploads directory if it doesn't exist

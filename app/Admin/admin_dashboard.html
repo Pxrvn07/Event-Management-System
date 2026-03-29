@@ -17,7 +17,7 @@
   <header>
     <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 32px; background: #831339; min-height: 72px;">
       <div style="display: flex; align-items: center; gap: 20px;">
-        <img src="../assets/sathyabama_logo.png" alt="Sathyabama Logo" style="height: 48px; width: auto;">
+        <img src="../../assets/sathyabama_logo.png" alt="Sathyabama Logo" style="height: 48px; width: auto;">
         </div>
       <div style="display: flex; align-items: center; gap: 0;">
         <div style="position: relative;">
@@ -286,7 +286,7 @@ function showTab(tab) {
 // Helper function to get correct image path
 function getImagePath(imagePath) {
   if (!imagePath || imagePath === '') {
-    return '../assets/img/event-placeholder.svg';
+    return '../../assets/img/event-placeholder.svg';
   }
   // If it's already an absolute URL or starts with http, return as is
   if (imagePath.startsWith('http') || imagePath.startsWith('/')) {
@@ -481,7 +481,7 @@ function showEventDetails(event_id) {
         alert(data.error);
         return;
       }
-      eventImageUrl = data.image_path && data.image_path !== '' ? '../' + data.image_path : '../assets/img/event-placeholder.svg';
+      eventImageUrl = data.image_path && data.image_path !== '' ? '../' + data.image_path : '../../assets/img/event-placeholder.svg';
       document.getElementById('event-details-image').src = eventImageUrl;
       
       // Always show read-only details for admin dashboard

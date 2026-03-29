@@ -100,8 +100,8 @@
         <p class="description">Welcome to the  event management platform for educational institutions.</p>
         
         <div class="buttons">
-            <a href="Login/login.html" class="btn">Login to System</a>
-            <a href="Register/signup.html" class="btn">Register New Account</a>
+            <a href="app/Login/login.html" class="btn">Login to System</a>
+            <a href="app/Register/signup.html" class="btn">Register New Account</a>
         </div>
     </div>
 </body>
