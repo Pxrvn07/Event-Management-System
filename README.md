@@ -1,8 +1,6 @@
-# 🎉 Event Management System
+# <div align="center">🎉 Event Management System</div>
 
-<div align="center">
-  <img src="assets/dashboard.png" alt="Project Screenshot" width="800">
-</div>
+
 
 <p align="center">
   <i>A comprehensive, web-based platform to automate event planning, participant registration, and overall event management.</i>
