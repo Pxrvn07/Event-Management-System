@@ -97,7 +97,7 @@
     <div class="container">
         <div class="logo">🎓</div>
         <h1>Event Management System</h1>
-        <p class="description">Welcome to the comprehensive event management platform for educational institutions.</p>
+        <p class="description">Welcome to the  event management platform for educational institutions.</p>
         
         <div class="buttons">
             <a href="Login/login.html" class="btn">Login to System</a>
